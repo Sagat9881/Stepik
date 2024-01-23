@@ -1,6 +1,9 @@
-package org.example.java_base.module_5
+package org.example.java_base.module_5;
 
-public class Test {
+import org.example.java_base.module_5.Video2;
+import org.example.java_base.module_5.Video3;
+
+public class Testt {
     static int b;
 
     public static void main(String[] args) {
