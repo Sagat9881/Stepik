@@ -6,15 +6,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * <h3>Формат входа:</h3><p>Первая строка содержит натуральное число "n".</p>
- * <p>Вторая строка содержит "n" целых чисел ["parent[0]" , . . . , "parent[n−1]"].</p>
+ * <h3>Формат входа:
+ * <p>Первая строка содержит натуральное число "n".
+ * <p>Вторая строка содержит "n" целых чисел ["parent[0]" , . . . , "parent[n−1]"].
  * Для каждого "0 ≤ i ≤ n−1", "parenti" — родитель вершины "i"; если parent[i] = −1, то "i" является корнем.
- * <p>Гарантируется, что корень ровно один.</p> <p>Гарантируется, что данная последовательность задаёт дерево.</p>
- * <p></p>
- * <h3>Формат выхода: </h3>
- * <p>Высота дерева.</p>
- * <p></p>
- * <h3>Ограничения: </h3> "1 ≤ n ≤ 105".
+ * <p>Гарантируется, что корень ровно один. <p>Гарантируется, что данная последовательность задаёт дерево.<p/>
+ * <p>
+ * <h3>Формат выхода: Высота дерева.
+ * <h3>Ограничения:  "1 ≤ n ≤ 105".
  */
 public class TreeHeight {
 
@@ -51,23 +50,14 @@ public class TreeHeight {
         }
 
         public int getHeight(Node current) {
-            final Collection<Node> values = current.childs.values();
-            final Set<Integer> leafChild = values.stream().filter(node -> node.childs.isEmpty())
-                    .map(node -> node.value)
-                    .collect(Collectors.toSet());
+            int height = 1;
+            final Collection<Node> childs = current.childs.values();
 
-            int height = leafChild.size() == values.size() ? 2 : 1;
-
-            for (Collection<Node> value : partition(values, 10)) {
-                int i = value.stream()
-                        .filter(node -> !leafChild.contains(node.value))
-                        .mapToInt(node -> this.getHeight(node) + 1)
-                        .max()
-                        .orElse(height);
-                height = Math.max(height, i);
+            for (Node child : childs) {
+                height = Math.max(height, 1 + getHeight(child));
             }
-            return height;
 
+            return height;
         }
 
         public int getHeight() {
@@ -122,20 +112,5 @@ public class TreeHeight {
         return result;
     }
 
-    private static <T> List<List<T>> partition(Collection<T> list, int delim) {
-        ArrayList<List<T>> result = new ArrayList<>();
-        List<T> wrap = new ArrayList<>(list);
-        int start = 0;
-        int end = delim;
-        while (end + delim >= list.size()) {
-            List<T> subList = wrap.subList(start, end);
-            result.add(subList);
-            start = end;
-            end += delim;
-        }
-        int minus = (end + delim) - list.size();
-        end += (delim - minus);
-        result.add(wrap.subList(start, end));
-        return result;
-    }
+
 }
